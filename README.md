@@ -7,7 +7,7 @@ A CatBoost model is trained on past registrations with check-in data, then appli
 ## How it works
 
 ```
-Higgsfield registrations + check-in  ─►  CatBoost model  ─►  turnout forecast for Creative One and Zimran
+Higgsfield registrations + check-in  ─►  CatBoost model  ─►  turnout forecast for Creative One and Business Cup
    (Oct 2025, ~1,800 people)                                  (Jan 2026, 568 regs)  (Apr 2026, 535 regs)
 ```
 
@@ -26,14 +26,16 @@ Higgsfield registrations + check-in  ─►  CatBoost model  ─►  turnout for
 | Neutral features shared with Creative One (notebook 2) | 64.4% | 0.69 |
 | Unified model without age (notebook 3) | 65.2% | 0.69 |
 
-**Turnout forecasts**
+**Turnout forecasts vs. real attendance**
 
-| Event | Registered | Forecast attendees (probability > 0.5) |
-|---|---:|---:|
-| Creative One (24 Jan 2026) | 568 | 365 |
-| Zimran (5 Apr 2026) | 535 | 339–349 |
+A registrant is counted as an expected attendee when the model gives them a probability above **0.6**. The same rule was used for both events.
 
-The forecasts were used to plan Creative One and later AIESEC events, and the Creative One forecast came close to the real turnout.
+| Event | Registered | Forecast | Actual attendance | Accuracy |
+|---|---:|---:|---:|---:|
+| Creative One (24 Jan 2026) | 568 | 229 | 201 | 86% |
+| Business Cup (5 Apr 2026, `ZimranApril3.csv`) | 535 | 278 | 280 | **99%** |
+
+Accuracy = 100 − |forecast − actual| ÷ actual × 100. The Business Cup forecast was made before the event. Lower thresholds overestimated turnout (for Creative One: 365 at 0.5, 490 at 0.3). The forecasts were used to plan both events.
 
 **Why a 65%-accurate model can still forecast headcount well:** accuracy measures whether the model is right about *each person*. Some people it expects will come stay home, and some it doubts do come. Over hundreds of registrations these errors largely cancel out, so the *total* is much more reliable than any single prediction, and the total is what event planning needs.
 
@@ -45,7 +47,7 @@ The forecasts were used to plan Creative One and later AIESEC events, and the Cr
 |---|---|
 | `1_train_higgsfield_model.ipynb` | Cleans Higgsfield registrations, engineers features, trains CatBoost, plots feature importance |
 | `2_forecast_creative_one.ipynb` | Trains on features shared with the Creative One form, validates, forecasts Creative One turnout |
-| `3_forecast_zimran.ipynb` | Unified model without age; forecasts Zimran (and Creative One) and reports accuracy and feature importance |
+| `3_forecast_zimran.ipynb` | Unified model without age; forecasts Business Cup (Zimran data) and Creative One, reports accuracy and feature importance |
 
 ## Data and privacy
 
@@ -55,7 +57,7 @@ To run the notebooks, put the exports in `data/`:
 
 - `Higgsfield_Registrations.csv`: training data, including the `CheckIn` column
 - `C1.csv`: Creative One registrations
-- `ZimranApril3.csv`: Zimran registrations
+- `ZimranApril3.csv`: Business Cup registrations
 
 ## How to run
 
