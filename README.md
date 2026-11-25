@@ -33,7 +33,7 @@ A registrant is counted as an expected attendee when the model gives them a prob
 | Event | Registered | Forecast | Actual attendance | Accuracy |
 |---|---:|---:|---:|---:|
 | Creative One (24 Jan 2026) | 568 | 229 | 201 | 86% |
-| Business Cup (5 Apr 2026, `ZimranApril3.csv`) | 535 | 278 | 280 | **99%** |
+| Business Cup (5 Apr 2026 ) | 535 | 278 | 280 | **99%** |
 
 Accuracy = 100 − |forecast − actual| ÷ actual × 100. The Business Cup forecast was made before the event. Lower thresholds overestimated turnout (for Creative One: 365 at 0.5, 490 at 0.3). The forecasts were used to plan both events.
 
